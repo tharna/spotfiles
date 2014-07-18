@@ -1,0 +1,57 @@
+#!/usr/bin/perl -w
+
+use strict;
+use DBI qw/:sql_types/;
+use HTML::HTML5::Entities;
+
+my $dsn = 'DBI:mysql:phpfun:localhost';
+my $db_user = 'phpfun';
+my $db_pass = 'phpfantsuu';
+
+my $dbh = DBI->connect($dsn, $db_user, $db_pass);
+
+if ($#ARGV!=0) {
+	print STDERR "Syntax: $0 function_name\n";
+	exit -1;
+}
+
+my $key = $ARGV[0];
+
+my $sth = $dbh->prepare(<<SQL);
+	SELECT 
+		use1, 
+		description,
+		version
+	FROM 
+		functions 
+	WHERE 
+		name like ?
+SQL
+
+$sth->bind_param(1, $key);
+$sth->execute;
+
+my($proto,$desc,$version);
+$sth->bind_columns(undef,\$proto,\$desc,\$version);
+
+if (not defined($sth->fetch)) {
+	print "No matching PHP functions.";
+	exit 0;
+}
+
+do {
+	$proto =~ s/^\s*//;
+	$proto = HTML::HTML5::Entities::decode($proto);
+	$desc = HTML::HTML5::Entities::decode($desc);
+	$version = HTML::HTML5::Entities::decode($version);
+
+	print <<TXT
+$proto
+  $desc
+  $version
+
+TXT
+} while($sth->fetch);
+
+$sth->finish;
+$dbh->disconnect;

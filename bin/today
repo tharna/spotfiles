@@ -1,0 +1,45 @@
+#!/usr/bin/env zsh
+function get_user { git config user.email }
+user=$(get_user)
+since="6am"
+total=0
+today="today"
+onlytotal=0
+
+while getopts "tu:s:" option
+do
+  case $option in
+    t)
+      onlytotal=1
+      ;;
+    u)
+      user=$OPTARG
+      ;;
+    s)
+      since=$OPTARG
+      today="since $since"
+      ;;
+  esac
+done
+
+cd $projects_path
+
+cat /$GIT_REPO_DIR/.git_index | while read line
+do
+  for i in $=line
+  do
+    cd $i
+    eval $'commits=( ${(s.\n.)"$(git log --pretty=oneline --since="$since" --author=$user | wc -l)"} )'
+    if [ $commits -eq 0 ]; then
+      echo "${RED}No commits in project ${CYAN}${i%/repo}${RED} $today!${NO_COLOR}"
+    elif [ $onlytotal -eq 1 ]; then
+      echo "${CYAN}$commits${NO_COLOR} commits in project ${CYAN}${i%/repo}${RED}" 
+    else
+      echo "##### Changes in project ${CYAN}${i%/repo}${NO_COLOR} #####"
+      git log --pretty=oneline --abbrev-commit --all --decorate --since="$since" --author=$user
+    fi
+    ((total = total + commits ))
+  done
+done
+echo "$user has made $total commits since $today."
+

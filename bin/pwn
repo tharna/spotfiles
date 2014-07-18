@@ -1,0 +1,3 @@
+#!/bin/bash
+sudo chown -R www-data:$1 $2
+sudo chmod -R g+rw $2

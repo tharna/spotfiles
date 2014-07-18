@@ -1,0 +1,9 @@
+#!/bin/sh
+rotation=`xrandr -q --verbose|grep LVDS1|cut -b37-42`
+echo $rotation
+if [ $rotation = "normal" ] ;
+then
+  xrandr -o left
+else
+  xrandr -o normal
+fi
