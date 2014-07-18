@@ -1,0 +1,2 @@
+#!/bin/sh
+for i in `sudo aptitude update 2>&1 | grep NO_PUBKEY | awk '{print $NF;}'`; do sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $i; done

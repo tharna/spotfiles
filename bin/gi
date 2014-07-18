@@ -1,0 +1,2 @@
+#!/bin/zsh
+git_expand_args echo $1 | sed "s%`git rev-parse --show-toplevel`/%%g" >> $(git rev-parse --show-toplevel)/.gitignore

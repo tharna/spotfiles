@@ -1,0 +1,11 @@
+#!/usr/bin/php
+<?php
+include 'lib/markdown.php';
+$fp = fopen($argv[1],"r");
+$str = fread($fp,filesize($argv[1]));
+fclose($fp);
+$html = Markdown($str);
+fwrite(STDOUT, $html);
+?>
+
+

@@ -1,0 +1,27 @@
+#!/usr/bin/perl
+$pixelcount = 10000;
+
+for $file (@ARGV)
+{
+  @fullpath = reverse(split(/\//,$file));
+  $fullpath[0] = "thumbs/".$fullpath[0];
+  $newfile = join('/',reverse(@fullpath));
+  print "$newfile\n";
+  $info = `identify $file`;
+  if ($info =~ m#[^ ]+ (\d+)x(\d+)#)
+  {
+    $x = $1;
+    $y = $2;
+  } else {
+    print "Failed to parse info:$info\n";
+  }
+  #print "info:$info\n";
+  $pixels = $x * $y;
+  $newx = int($x / (sqrt($x * $y) / sqrt($pixelcount)));
+  $newy = int($y / (sqrt($x * $y) / sqrt($pixelcount)));
+  $newpix = $newx * $newy;
+  print("${x}x$y=$pixels -> ${newx}x$newy=$newpix\n");
+  #print "convert -geometry ${newx}x$newy $file $newfile\n";
+  #print "convert -geometry \"${newx}x${newy}\>\" $file $newfile";
+  `convert -geometry \"${newx}x${newy}\>\" -compress JPEG $file $newfile`;
+}

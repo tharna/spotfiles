@@ -1,0 +1,5 @@
+#!/bin/sh
+sudo vi /etc/hosts
+if [ $# -gt 0 ] ; then
+  sudo service dnsmasq restart
+fi

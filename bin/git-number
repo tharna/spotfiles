@@ -1,0 +1,112 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+
+# git-number:
+#
+
+=pod
+
+=head1 NAME
+
+git-number
+
+=head1 SYNOPSIS
+
+    git-number [-h|--color=<when>|-s] [<git-cmd|-c <cmd>> [git-or-cmd-options] [files or numbers]]
+
+=head1 DESCRIPTION
+
+When run without args:
+
+Runs git-id and exit (numbers your files for git's consumption later)
+
+When run with args:
+
+Runs git, and replaces any number it found in the args with the equivalent
+filename from the previous run of git-number
+
+=head1 OPTIONS
+
+=over 4
+
+=item --color=<when>
+
+Enable or disable colorized git-status output, E<lt>whenE<gt> is one of
+I<always>, I<auto> or I<never>. Default is I<always>.
+
+=item -c <cmd>
+
+Runs I<E<lt>cmdE<gt>> instead of git on the given arguments.
+All arguments that follows <cmd> will be passed on to <cmd>.
+
+=item -s
+
+Shows I<git status> with the I<--short> option.
+
+=item -v
+
+Show version information
+
+=item -h
+
+Show this help message
+
+=back
+
+=head1 VERSION
+
+1.0
+=cut
+my $VERSION = '1.0'; # Don't forget to update the one in pod!
+
+my $me = __FILE__;
+sub show_usage_and_exit {
+    my ($exit_value) = @_;
+    $exit_value = 0 if ! defined $exit_value;
+    system(qq[perldoc "$0"]);
+    exit $exit_value;
+}
+
+my $run = 'git';
+my $color = 'always';
+my $status_format = '';
+while (scalar @ARGV && $ARGV[0] =~ /^-/) {
+    my $option = shift @ARGV;
+    if ($option eq '-h') {
+        show_usage_and_exit();
+    } elsif ($option eq '-v') {
+        print "$VERSION\n";
+        exit 0;
+    } elsif ($option eq '-c') {
+        $run = shift @ARGV;
+        last;
+    } elsif ($option =~ m{--color=(always|auto|never)}) {
+        $color = $1;
+    } elsif ($option eq '-s') {
+        $status_format = '--short';
+    } else {
+        print "Unknown option: $option\n";
+        exit 1;
+    }
+}
+
+if (scalar @ARGV == 0) {
+    system("git-id --color=$color $status_format");
+    exit
+}
+
+my @args;
+foreach my $arg (@ARGV) {
+    if ( $arg =~ m/^[0-9][0-9]*$/ ) {
+        push @args, split("\n", `git-list $arg`);
+    } elsif ( $arg =~ m/^[0-9][0-9]*-[0-9][0-9]*$/ ) {
+        push @args, split("\n", `git-list $arg`);
+    } else {
+        push @args, $arg;
+    }
+}
+
+my $cmd = "$run " . join(' ', @args);
+print $cmd . "\n";
+system($cmd);

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+getDotDotDir() {
+  relpath=$(echo `perl -e 'use File::Spec; print File::Spec->abs2rel(@ARGV) . "\n"' $1 .`)
+}
+getDotDotDir $1
+echo $relpath
