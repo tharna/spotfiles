@@ -1,0 +1,46 @@
+[apply]
+	whitespace = nowarn
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+  ui = true
+[color "diff"]
+  new =  cyan
+  meta = white
+[user]
+	name = Janne Koponen
+	email = janne.koponen@wunderkraut.com
+[alias]
+    s = status
+    c = commit
+    ca = commit -am
+    r = rebase
+    co = checkout
+    cb = checkout -b
+    d = diff
+    m = merge
+    l = log
+	ds = diff --cached
+[diff]
+    tool = vimdiff
+[merge]
+	tool = diffconflicts
+[mergetool "diffconflicts"]
+	cmd = diffconflicts vim $BASE $LOCAL $REMOTE $MERGED
+	trustExitCode = true
+	keepBackup = false
+[push]
+	default = tracking
+[branch]
+	autosetupmerge = true
+[rerere]
+	enabled = true
+[core]
+  quotepath = false
+	excludesfile = /home/janne/.gitignore
+	mergeoptions = --no-ff --no-commit
+[help]
+	autocorrect = 5
+[github]
+	user = tharna

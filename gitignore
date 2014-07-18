@@ -1,0 +1,12 @@
+*.zip
+*.tar.*
+*.sql
+*.gz
+*.bz2
+*.swp
+sites/*/files
+sites/*/settings*.php
+sites/*/private
+debug_time.php
+tags
+apc.php
