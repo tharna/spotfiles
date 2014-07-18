@@ -1,0 +1,11 @@
+"hg4859 (created: 2010/11/22 01:00:10)
+
+highlight StatusLineNormal background-color: black;color: #00ff00;
+highlight StatusLineSecure background-color: black;color: #0099ff;
+highlight StatusLineExtended background-color: black;color: #ffff00;
+set runtimepath=/home/janne/.pentadactyl
+set guioptions=Cs
+
+" vim: set ft=pentadactyl:
+command send js linkpush.send() 
+command ril js RIL.addCurrent() 
