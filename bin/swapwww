@@ -1,0 +1,27 @@
+#!/bin/bash
+if [ $# -gt 0 ] ; then
+  if [ ! -f /var/run/apache2/apache2.pid ]; then
+    if [[ $1 == *r* ]] ; then
+      sudo service nginx restart
+      sudo service php5-fpm restart
+    else
+      echo nginx
+    fi
+  else
+    if [[ $1 == *r* ]] ; then
+      sudo service apache2 reload
+    else
+      echo apache
+    fi 
+  fi
+else
+  if [ ! -f /var/run/apache2/apache2.pid ]; then
+    sudo service nginx stop
+    sudo service php5-fpm stop
+    sudo service apache2 start
+  else
+    sudo service apache2 stop
+    sudo service nginx start
+    sudo service php5-fpm start
+  fi  
+fi

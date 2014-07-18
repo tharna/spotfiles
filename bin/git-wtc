@@ -1,0 +1,2 @@
+#!/bin/sh
+git commit -m "`lynx --dump http://whatthecommit.com/ | head -n 1`"
