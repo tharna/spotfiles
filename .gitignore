@@ -6,6 +6,6 @@
 *.swp
 tags
 *.cache
-vim/bundle
-vim/undo
+.vim/bundle
+.vim/undo
 yankring_history_v2.txt
