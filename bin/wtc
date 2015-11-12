@@ -1,0 +1,2 @@
+#!/bin/sh
+lynx --dump http://whatthecommit.com/ | head -n 1

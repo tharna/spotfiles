@@ -27,7 +27,11 @@ Plugin 'groenewege/vim-less'
 Plugin 'joonty/vdebug.git'
 "Plugin 'StanAngeloff/php.vim'
 "Plugin 'Lokaltog/vim-easymotion'
+Plugin 'easymotion/vim-easymotion'
+Plugin 'terryma/vim-expand-region'
 filetype plugin indent on
+
+"Bundle 'git://drupalcode.org/project/vimrc.git', {'rtp': 'bundle/vim-plugin-for-drupal/'}
 
 "}}}
 
@@ -210,7 +214,9 @@ nnoremap <leader>dvp :!sudo service php5-fpm restart<CR>
 nnoremap <leader>t :tabe 
 
 let g:Powerline_symbols = 'fancy'
+" Drupal set as default in phpcs: phpcs --config-set default_standard Drupal
 "let g:syntastic_php_phpcs_args="--standard=Drupal --extensions=php,module,inc,install,test,profile,theme"
+"let g:syntastic_phpcs_disable=1
 
 set undofile                " Save undo's after file closes
 set undodir=$HOME/.vim/undo " where to save undo histories
@@ -234,21 +240,34 @@ nnoremap <Leader>gA :GitAdd <cfile><Enter>
 nnoremap <Leader>gc :GitCommit<Enter>
 nnoremap <Leader>gp :GitPullRebase<Enter>
 
-let g:switch_definitions =
-    \ [
-    \   ['asdf', 'qwerty']
-    \ ]
-let g:switch_definitions =
-        \ [
-        \   ['0', '1',] 
-        \ ]
-
-
 nnoremap <leader><space> :Switch<cr>
+
 set mouse=r
 set ttymouse=xterm2
 set switchbuf=usetab
 nnoremap <Leader>ma :set mouse=a<Enter>
 nnoremap <Leader>mr :set mouse=r<Enter>
 
+"easymotion
+map <Leader>l <Plug>(easymotion-lineforward)
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+map <Leader>h <Plug>(easymotion-linebackward)
+nmap <space> <Plug>(easymotion-s2)
+
+let g:EasyMotion_smartcase = 1
+let g:EasyMotion_enter_jump_first = 1
+
+map <leader>n <Plug>(easymotion-next)
+map <leader>m <Plug>(easymotion-prev)
+
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
+
+map <leader><cr> <Plug>(easymotion-repeat)
+
 "set clipboard=unnamedplus
+"
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
+
