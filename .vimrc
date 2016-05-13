@@ -29,6 +29,8 @@ Plugin 'joonty/vdebug.git'
 "Plugin 'Lokaltog/vim-easymotion'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'terryma/vim-expand-region'
+Plugin 'junegunn/goyo.vim'
+
 filetype plugin indent on
 
 "Bundle 'git://drupalcode.org/project/vimrc.git', {'rtp': 'bundle/vim-plugin-for-drupal/'}
@@ -44,6 +46,7 @@ au BufRead,BufNewFile *.inc 		set filetype=php
 au BufRead,BufNewFile *.test 		set filetype=php
 au BufRead,BufNewFile *.install 	set filetype=php
 au BufRead,BufNewFile *.profile 	set filetype=php
+au BufRead,BufNewFile *.theme 	set filetype=php
 
 au BufRead,BufNewFile ~/devlog/*    set filetype=project
 au BufRead,BufNewFile *.pro         set filetype=project
@@ -231,7 +234,7 @@ nnoremap k gk
 "noremap <Left> <nop>
 "noremap <Right> <nop>
 
-nnoremap <Leader>gd :Gdiff<Enter>
+nnoremap <Leader>gd :Gvdiff<Enter>
 nnoremap <Leader>gD :GitDiff --cached<Enter>
 nnoremap <Leader>gs :Gstatus<Enter>
 nnoremap <Leader>gl :GitLog<Enter>
@@ -271,3 +274,19 @@ map <leader><cr> <Plug>(easymotion-repeat)
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
 
+" turn-on distraction free writing mode for markdown files
+"    au BufNewFile,BufRead *.{md,mdown,mkd,mkdn,markdown,mdwn} call DistractionFreeWriting()
+"
+"    function! DistractionFreeWriting()
+"        set columns=80           " size of the editable area
+"        set guioptions-=r                  " remove right scrollbar
+"        set laststatus=0                   " don't show status line
+"        set noruler                        " don't show ruler
+"        set linebreak                      " break the lines on words
+"        set nonumber
+"        set norelativenumber
+"        set mouse=a
+"    endfunction
+"
+"    au FileType markdown Goyo
+:map <F6> :setlocal spell! spelllang=en_gb<CR>

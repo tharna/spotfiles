@@ -160,10 +160,10 @@ exe 'hi WarningMsg   guifg=' . s:boldRed
 exe 'hi WildMenu     ctermbg=3 guifg=bg guibg=' . s:brown
 exe 'hi Folded       ctermfg=3 ctermbg=7 guifg=' . s:brown . ' guibg=' . s:boldBlack
 exe 'hi FoldColumn   ctermfg=3 ctermbg=7 guifg=' . s:brown . ' guibg=' . s:boldBlack
-exe 'hi DiffAdd      guibg=' . s:blue
-exe 'hi DiffChange   guibg=' . s:magenta
-exe 'hi DiffDelete   cterm=none guifg=' . s:blue . ' guibg=' . s:cyan . ' gui=none'
-exe 'hi DiffText     cterm=bold guifg=' . s:boldWhite . ' guibg=' . s:boldRed
+exe 'hi DiffAdd      cterm=bold ctermbg=28 guibg=' . s:boldGreen
+exe 'hi DiffChange   ctermbg=17 guibg=' . s:boldBlack
+exe 'hi DiffDelete   cterm=none ctermbg=124 ctermfg=Black guifg=' . s:black . ' guibg=' . s:red . ' gui=none'
+exe 'hi DiffText     cterm=bold ctermbg=234 guifg=' . s:boldWhite . ' guibg=' . s:boldRed
 exe 'hi SignColumn   ctermfg=3 ctermbg=7 guifg=' . s:brown . ' guibg=' . s:boldBlack
 exe 'hi SpellBad     cterm=bold guifg=' . s:boldWhite . ' guisp=' . s:boldRed . ' gui=undercurl'
 exe 'hi SpellCap     cterm=bold guifg=' . s:boldWhite . ' guisp=' . s:boldBlue . ' gui=undercurl'

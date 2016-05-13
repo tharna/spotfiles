@@ -5,42 +5,67 @@
 	status = auto
 	branch = auto
   ui = true
+#[color "diff"]
+#  new =  cyan
+#  meta = white
 [color "diff"]
-  new =  cyan
-  meta = white
+  meta = yellow bold
+  commit = green bold
+  frag = magenta bold
+  old = red bold
+  new = cyan bold
+  whitespace = red reverse
+[color "diff-highlight"]
+  oldNormal = "red bold"
+  oldHighlight = "black red"
+  newNormal = "cyan bold"
+  newHighlight = "black 51"
 [user]
 	name = Janne Koponen
 	email = janne.koponen@wunderkraut.com
 [alias]
-    s = status
-    c = commit
-    ca = commit -am
-    r = rebase
-    co = checkout
-    cb = checkout -b
-    d = diff
-    m = merge
-    l = log
+  s = status
+  c = commit
+  ca = commit -am
+  r = rebase
+  co = checkout
+  cb = checkout -b
+  d = diff
+  m = merge
+  l = log
 	ds = diff --cached
+  graph = "!f() { echo 'digraph git {' ; git log --pretty='format:  %h -> { %p }' \"$@\" | sed 's/[0-9a-f][0-9a-f]*/\"&\"/g' ; echo '}'; }; f"
+  tree = "forest --pretty=format:\"%C(red)%h %C(magenta)(%ar) %C(blue)%an %C(reset)%s\" --style=15 --reverse"
+  date = "log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%an] %Cgreen%d%Creset %s\" --all --date=short"
+  ours   = "!f() { git checkout --ours $@ && git add $@; }; f"
+  theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
 [diff]
     tool = vimdiff
+	algorithm = histogram
 [merge]
 	tool = diffconflicts
+	ff = false
 [mergetool "diffconflicts"]
 	cmd = diffconflicts vim $BASE $LOCAL $REMOTE $MERGED
 	trustExitCode = true
 	keepBackup = false
 [push]
-	default = tracking
+	default = current
 [branch]
-	autosetupmerge = true
+	autosetupmerge = always
+	autosetuprebase = always
 [rerere]
 	enabled = true
 [core]
   quotepath = false
 	excludesfile = /home/janne/.gitignore
-	mergeoptions = --no-ff --no-commit
+  mergeoptions = --no-ff --no-commit
 [help]
-	autocorrect = 5
+	autocorrect = 3
 [github]
 	user = tharna
+[remote "origin"]
+	prune = true
+[pager]
+	diff = diff-so-fancy | less --tabs=1,5 -RFX
+	show = diff-so-fancy | less --tabs=1,5 -RFX
