@@ -1,4 +1,4 @@
 #!/bin/sh
 #git log --graph --pretty=oneline --abbrev-commit --all --decorate
-git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %C(magenta)(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all --decorate $1 $2 $3 $4
+git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %C(magenta)(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all --decorate $@
 

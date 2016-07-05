@@ -1,14 +1,14 @@
 #!/usr/bin/env zsh
-  #appendlinenumber=0
-  #while getopts "v:" option
-  #do
-    #case $option in
-      #v)
-        #appendlinenumber=1
-        #(( $# = $# - 1 ))
-        #;;
-  #esac
-  #done
+ appendlinenumber=1
+ while getopts "v:" option
+  do
+    case $option in
+      v)
+        appendlinenumber=1
+        (( $# = $# - 1 ))
+        ;;
+  esac
+  done
 
   if [[ "$#" -eq 1 ]]; then
     results=(${(f)"$(grep -rn $1)"} )
@@ -33,11 +33,11 @@
       file_path=(${line%%:*}(:A))
     fi
     e="e$i"
-    #v="v$i"
-    #if [[ appendlinenumber -eq 1 ]]; then
-    #fi
+    av="av$i"
+    if [[ appendlinenumber -eq 1 ]]; then
+      line_number="+${${line#*:}%:*}"
+    fi
     export $e="$file_path"
-    echo $e
     (( i = i + 1 ))
   done
-
+export v1="test"

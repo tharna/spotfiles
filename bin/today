@@ -29,14 +29,14 @@ do
   for i in $=line
   do
     cd $i
-    eval $'commits=( ${(s.\n.)"$(git log --pretty=oneline --since="$since" --author=$user | wc -l)"} )'
+    eval $'commits=( ${(s.\n.)"$(git log --pretty=oneline --since="$since" --author=$user --all | wc -l)"} )'
     if [ $commits -eq 0 ]; then
       echo "${RED}No commits in project ${CYAN}${i%/repo}${RED} $today!${NO_COLOR}"
     elif [ $onlytotal -eq 1 ]; then
       echo "${CYAN}$commits${NO_COLOR} commits in project ${CYAN}${i%/repo}${RED}" 
     else
       echo "##### Changes in project ${CYAN}${i%/repo}${NO_COLOR} #####"
-      git log --pretty=oneline --abbrev-commit --all --decorate --since="$since" --author=$user
+      git --no-pager log --pretty=oneline --abbrev-commit --all --decorate --since="$since" --author=$user
     fi
     ((total = total + commits ))
   done
