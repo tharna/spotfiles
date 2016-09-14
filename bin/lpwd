@@ -1,10 +1,10 @@
 #!/bin/sh
 
 if [ $# -eq 1 ]; then
-  lpass show $1 -c --password
+  lpass show "$1"  --password
   echo "Password for $1 copied to clipboard."
 elif [ $# -eq 2 ]; then
-  lpass show $1 -c --field=$2
+  lpass show "$1"  --field="$2"
   echo "$2 for $1 copied to clipboard."
 else
   lpass ls
