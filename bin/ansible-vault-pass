@@ -1,0 +1,2 @@
+#!/bin/sh
+echo `lpass show Ansible\ vault\ pass --field=Secret\ access\ key`
