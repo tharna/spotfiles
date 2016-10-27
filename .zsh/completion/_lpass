@@ -1,0 +1,146 @@
+#compdef lpass
+#autoload
+
+# Copyright (C) 2012 - 2014:
+#    Johan Venant <jvenant@invicem.pro>
+#    Brian Mattern <rephorm@rephorm.com>
+#    Jason A. Donenfeld <Jason@zx2c4.com>.
+# All Rights Reserved.
+# This file is licensed under the GPLv2+. Please see COPYING for more information.
+
+
+_lpass () {
+	local cmd
+	if (( CURRENT > 2)); then
+		cmd=${words[2]}
+		# Set the context for the subcommand.
+		curcontext="${curcontext%:*:*}:lpass-$cmd"
+		# Narrow the range of words we are looking at to exclude `pass'
+		(( CURRENT-- ))
+		shift words
+		# Run the completion for the subcommand
+		case "${cmd}" in
+      login)
+				_arguments : \
+        "--trust" \
+        "--plaintext-key" \
+        "--force" \
+        "--color"
+        ;;
+      logout)
+				_arguments : \
+        "--force" \
+        "--color"
+        ;;
+			ls|list|edit)
+				_lpass_complete_entries_with_subdirs
+				;;
+			insert)
+				_arguments : \
+					"-e[echo password to console]" \
+					"--echo[echo password to console]" \
+					"-m[multiline]" \
+					"--multiline[multiline]"
+				_lpass_complete_entries_with_subdirs
+				;;
+      generate)
+				_arguments : \
+          "--sync" \
+          "--clip" \
+          "--username" \
+          "--url" \
+          "--no-symbols" \
+          "--color"
+				_lpass_complete_entries_with_subdirs
+				;;
+			cp|copy|mv|rename)
+				_arguments : \
+					"-f[force rename]" \
+					"--force[force rename]"
+					_lpass_complete_entries_with_subdirs
+				;;
+			rm)
+				_arguments : \
+					"-f[force deletion]" \
+					"--force[force deletion]" \
+					"-r[recursively delete]" \
+					"--recursive[recursively delete]"
+					_lpass_complete_entries_with_subdirs
+				;;
+			git)
+				local -a subcommands
+				subcommands=(
+					"init:Initialize git repository"
+					"push:Push to remote repository"
+					"pull:Pull from remote repository"
+					"config:Show git config"
+					"log:Show git log"
+					"reflog:Show git reflog"
+				)
+				_describe -t commands 'pass git' subcommands
+				;;
+			show|*)
+				_lpass_cmd_show
+				;;
+		esac
+	else
+		local -a subcommands
+		subcommands=(
+			"init:Initialize new password storage"
+			"ls:List passwords"
+			"find:Find password files or directories based on pattern"
+			"grep:Search inside decrypted password files for matching pattern"
+			"show:Decrypt and print a password"
+			"insert:Insert a new password"
+			"generate:Generate a new password using pwgen"
+			"edit:Edit a password with \$EDITOR"
+			"mv:Rename the password"
+			"cp:Copy the password"
+			"rm:Remove the password"
+			"git:Call git on the password store"
+			"version:Output version information"
+			"help:Output help message"
+		)
+		_describe -t commands 'lpass' subcommands
+		_arguments : \
+			"--version[Output version information]" \
+			"--help[Output help message]"
+		_lpass_cmd_show
+	fi
+}
+
+_lpass_cmd_show () {
+	_arguments : \
+    "--sync" \
+    "--clip" \
+    "--expand-multi" \
+    "--all" \
+    "--username" \
+    "--password" \
+    "--url" \
+    "--notes" \
+    "--field" \
+    "--id" \
+    "--name" \
+    "--basic-regexp" \
+    "--fixed-strings" \
+    "--color"
+	_lpass_complete_entries
+}
+_lpass_complete_entries_helper () {
+	local IFS=$'\n'
+	_values -C $(lpass ls | egrep "^$cur" | awk '{print $1}')
+
+    #matches+=$(lpass ls | egrep "/$cur" | sed -e "s/ \[id.*//g" | \
+    #           awk -F '/' '{print $NF}')
+}
+
+_lpass_complete_entries_with_subdirs () {
+	_lpass_complete_entries_helper
+}
+
+_lpass_complete_entries () {
+	_lpass_complete_entries_helper -type f
+}
+
+_lpass

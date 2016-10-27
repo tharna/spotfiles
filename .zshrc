@@ -98,6 +98,7 @@ alias vsh="vagrant ssh"
 alias vup="vagrant up"
 alias vgs="vagrant global-status"
 alias ansible-vault="ansible-vault --vault-password-file=$WT_ANSIBLE_VAULT_FILE"
+alias k=kontena
 #alias lpwd="lpass show"
 alias ppwd="pass -c"
 alias -s pdf=evince
@@ -440,6 +441,7 @@ bindkey "^[s" insert-sudo
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.zsh/zsh-history-substring-search.zsh
 source ~/.zsh/grep_with_file_shortcuts.zsh
+source ~/.zsh/lpass_shortcuts.zsh
 source ~/.zsh/zsh-functions.zsh
 
 fpath=(~/code/drush_zsh/zsh $fpath)
@@ -490,3 +492,11 @@ export PATH="/usr/local/heroku/bin:$PATH"
 export LS_COLORS="no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.jpg=0;32:*.jpe=0;32:*.jpeg=0;32:*.gif=0;32:*.bmp=0;32:*.pbm=0;32:*.pgm=0;32:*.ppm=0;32:*.tga=0;32:*.xbm=0;32:*.xpm=0;32:*.tif=0;32:*.tiff=0;32:*.png=0;32:*.eps=0;32:*.mpg=0;32:*.mpeg=0;32:*.avi=0;32:*.fli=0;32:*.gl=0;32:*.dl=0;32:*.xcf=0;32:*.xwd=0;32:*.ogg=01;35:*.mp3=01;35:*.wav=01;35:*.o=01;33:*.c=01;35:*.h=01;35:*.m=01;35:*Makefile=0;35:*tags=01;32:*~=01;30:*.swp=01;30:*README=01;31:*.tex=01;31:*.htm=01;31:*.html=01;31:*readme=00;31:*.pdf=00;31:*.doc=00;31:*.ps=00;31:*.dvi=00;31:*.sql=01;37:*.sqlite=01;37:*.js=01;33:*.xul=01;35:*.xml=01;35:*.php=01;36:*.inc=01;36:*.css=01;32:*.html=01;36:*.module=01;37:"
 
 export WT_ANSIBLE_VAULT_FILE="~/bin/ansible-vault-pass"
+
+export VISUAL=vim
+autoload edit-command-line; zle -N edit-command-line
+bindkey -M vicmd v edit-command-line
+
+which kontena > /dev/null && . "$( kontena whoami --bash-completion-path )"
+
+complete -F "ahoy --generate-bash-completion" ahoy

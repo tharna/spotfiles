@@ -32,8 +32,6 @@ This highlighter defines the following styles:
 * `commandseparator` - command separation tokens
 * `hashed-command` - hashed commands
 * `path` - paths
-* `path_prefix` - path prefixes
-* `path_approx` - approximated paths
 * `globbing` - globbing expressions
 * `history-expansion` - history expansion expressions
 * `single-hyphen-option` - single hyphen options
