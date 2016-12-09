@@ -1,0 +1,8 @@
+#!/bin/bash
+FILE=$1$2
+command -v xclip >/dev/null 2>&1 || { echo "Need command xclip. Aborting." >&2; exit 1; }
+[[ -f "$FILE" ]] || { echo "Error: Not a file." >&2; exit 1; }
+TYPE=$(file -b --mime-type "$FILE")
+export XAUTHORITY="/home/janne/.Xauthority"
+export DISPLAY=:0
+xclip -selection clipboard -t "$TYPE" < "$FILE"
