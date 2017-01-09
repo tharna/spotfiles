@@ -1,0 +1,10 @@
+#!/bin/bash
+weekday=`date +%u`
+echo -e "\e[33mPompier\e[0m"
+curl -s http://pompier.fi/albertinkatu/lounas/ | pup "div#8 div p:nth-of-type($(($weekday+1))) text{}" --color
+echo -e "\n\e[33mFactory\e[0m"
+curl -s http://www.factorykamppi.com/lounas/ | pup "div#lounasdate-$weekday p:nth-of-type(1) text{}" --color | grep ' '
+echo -e "\n\e[33mKrog Madame\e[0m"
+curl -s http://madame.fi/lounas/ | pup "ul.menu-list__items:nth-of-type(2) li:nth-of-type($weekday) p text{}" 
+echo -e "\n\e[33mSodexo\e[0m"
+curl -s http://www.sodexo.fi/lapintiira | pup "ul.food-list div.lunch_desc span.fi text{}"
