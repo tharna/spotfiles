@@ -1,4 +1,6 @@
 #!/bin/bash
+# Requires pup HTML parser from https://github.com/ericchiang/pup
+
 weekday=`date +%u`
 echo -e "\e[33mPompier\e[0m"
 curl -s http://pompier.fi/albertinkatu/lounas/ | pup "div#8 div p:nth-of-type($(($weekday+1))) text{}" --color
