@@ -29,7 +29,8 @@ zmodload -a zsh/stat stat
 zmodload -a zsh/zpty zpty
 zmodload -a zsh/zprof zprof
 #zmodload -ap zsh/mapfile mapfile
-
+autoload -U zmv
+alias mmv='noglob zmv -W'
 
 PATH="/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/local/sbin/:$HOME/bin/:$HOME/.composer/vendor/bin:$PATH"
 TZ="Europe/Helsinki"
@@ -80,6 +81,7 @@ alias df='df -h'
 alias xc='exit'
 alias cd.='cd ..'
 alias cgrep='grep -n --color=always'
+alias git=hub
 alias g='git'
 #alias cr='cd $(git rev-parse --show-cdup)'
 alias sam='dc sam'
@@ -99,6 +101,9 @@ alias vup="vagrant up"
 alias vgs="vagrant global-status"
 alias ansible-vault="ansible-vault --vault-password-file=$WT_ANSIBLE_VAULT_FILE"
 alias k=kontena
+alias vc="vyprvpn connect"
+#alias vagrant="vagrant --skip-dependency-manager"
+
 #alias lpwd="lpass show"
 alias ppwd="pass -c"
 alias -s pdf=evince
@@ -113,6 +118,7 @@ alias -s gif=eog
 alias -s JPG=eog
 alias -s PNG=eog
 alias -s GIF=eog
+alias -s pro=vim
 
 # alias	=clear
 
@@ -414,7 +420,8 @@ bindkey -v
 
 bindkey -M viins '^R' history-incremental-pattern-search-backward
 bindkey -M viins '^F' history-incremental-pattern-search-forward
-
+bindkey "^[[A" history-incremental-pattern-search-backward
+bindkey "^[[B" history-incremental-pattern-search-forward
 unset GREP_OPTIONS
 #alias grep='grep --color=auto'
 export GREP_COLOR='1;33'
@@ -443,6 +450,7 @@ source ~/.zsh/zsh-history-substring-search.zsh
 source ~/.zsh/grep_with_file_shortcuts.zsh
 source ~/.zsh/lpass_shortcuts.zsh
 source ~/.zsh/zsh-functions.zsh
+source ~/.zsh/kubectl.plugin.zsh
 
 fpath=(~/code/drush_zsh/zsh $fpath)
 fpath=(~/.zsh/completion $fpath)
@@ -479,8 +487,8 @@ export LPASS_ASKPASS=/home/janne/bin/lpass_prompt
 #zle -N zle-keymap-select
 
 # Platform.sh CLI configuration
-PLATFORMSH_CONF=~/.composer/vendor/platformsh/cli/platform.rc
-[ -f "$PLATFORMSH_CONF" ] && . "$PLATFORMSH_CONF"
+#PLATFORMSH_CONF=~/.composer/vendor/platformsh/cli/platform.rc
+#[ -f "$PLATFORMSH_CONF" ] && . "$PLATFORMSH_CONF"
 
 . ~/.zsh/z.sh
 
@@ -492,6 +500,10 @@ export PATH="/usr/local/heroku/bin:$PATH"
 export LS_COLORS="no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.jpg=0;32:*.jpe=0;32:*.jpeg=0;32:*.gif=0;32:*.bmp=0;32:*.pbm=0;32:*.pgm=0;32:*.ppm=0;32:*.tga=0;32:*.xbm=0;32:*.xpm=0;32:*.tif=0;32:*.tiff=0;32:*.png=0;32:*.eps=0;32:*.mpg=0;32:*.mpeg=0;32:*.avi=0;32:*.fli=0;32:*.gl=0;32:*.dl=0;32:*.xcf=0;32:*.xwd=0;32:*.ogg=01;35:*.mp3=01;35:*.wav=01;35:*.o=01;33:*.c=01;35:*.h=01;35:*.m=01;35:*Makefile=0;35:*tags=01;32:*~=01;30:*.swp=01;30:*README=01;31:*.tex=01;31:*.htm=01;31:*.html=01;31:*readme=00;31:*.pdf=00;31:*.doc=00;31:*.ps=00;31:*.dvi=00;31:*.sql=01;37:*.sqlite=01;37:*.js=01;33:*.xul=01;35:*.xml=01;35:*.php=01;36:*.inc=01;36:*.css=01;32:*.html=01;36:*.module=01;37:"
 
 export WT_ANSIBLE_VAULT_FILE="~/bin/ansible-vault-pass"
+export UPCLOUD_API_USER="wunderkraut"
+export UPCLOUD_API_PASSWD=`upcloud-api-key`
+export DNSIMPLE_EMAIL="fi.support@wunderkraut.com"
+export DNSIMPLE_API_TOKEN=`dnsimple-api-token`
 
 export VISUAL=vim
 autoload edit-command-line; zle -N edit-command-line
@@ -499,4 +511,41 @@ bindkey -M vicmd v edit-command-line
 
 which kontena > /dev/null && . "$( kontena whoami --bash-completion-path )"
 
-complete -F "ahoy --generate-bash-completion" ahoy
+#complete -F "ahoy --generate-bash-completion" ahoy
+
+#source ~/.zsh/zplug/init.zsh
+
+# source .zsh/zsh-dir-scroller/dir-scroller.zsh
+# alt + left arrow and alt + right arrow
+#bindkey "^[[1;3D" _dir_scroller_prev
+#bindkey "^[[1;3C" _dir_scroller_next
+#
+# # or for vi command mode
+#bindkey -M vicmd 'H' _dir_scroller_prev
+#bindkey -M vicmd 'L' _dir_scroller_next
+
+
+export GOROOT=/usr/lib/go
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+
+PATH=~/.local/bin:$PATH
+#export AUTO_NTFY_DONE_LONGER_THAN=-L60
+#export AUTO_NTFY_DONE_IGNORE="htop vi ssh bi su"
+#eval "$(ntfy shell-integration)"
+
+
+
+export NVM_DIR="/home/janne/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /home/janne/.nvm/versions/node/v6.0.0/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /home/janne/.nvm/versions/node/v6.0.0/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /home/janne/.nvm/versions/node/v6.0.0/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /home/janne/.nvm/versions/node/v6.0.0/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
+
+#export ANSIBLE_CALLBACK_PLUGINS=/usr/local/lib/python2.7/dist-packages/ara/plugins/callbacks
+#export ANSIBLE_ACTION_PLUGINS=/usr/local/lib/python2.7/dist-packages/ara/plugins/actions
+#export ANSIBLE_LIBRARY=/usr/local/lib/python2.7/dist-packages/ara/plugins/modules
