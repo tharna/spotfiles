@@ -1,0 +1,2 @@
+#!/bin/sh
+awk 'length>6' /usr/share/dict/words  | sort --random-sort | head -4 | tr '\n' '-' | tr -d [ÅåÄäÖöé\'] | sed 's/-$/\n/'
